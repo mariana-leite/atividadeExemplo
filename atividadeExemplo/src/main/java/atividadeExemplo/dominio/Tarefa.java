@@ -1,5 +1,9 @@
 package atividadeExemplo.dominio;
 
+import java.text.ParseException;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -54,6 +58,13 @@ public class Tarefa {
 
 	public boolean isConcluida() {
 		return situacao.equals(SituacaoEnum.CONCLUIDA);
+	}
+	
+	public boolean isTerminouPrazo() throws ParseException {
+		LocalDate deadlineLocalDate = Instant.ofEpochMilli(deadline.getTime())
+			      .atZone(ZoneId.systemDefault())
+			      .toLocalDate();
+		return situacao.equals(SituacaoEnum.EM_ANDAMENTO) && deadlineLocalDate.isBefore(LocalDate.now());
 	}
 	
 	public Integer getId() {

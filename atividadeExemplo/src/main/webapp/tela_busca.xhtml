@@ -9,7 +9,15 @@
 <h:head>
 	<title>Listagem de Tarefas</title>
 </h:head>
-
+<style>
+      td {
+        background-color: transparent;
+      }
+      .light-power {
+        color: red;
+        font-weight: bold;
+      }
+</style>
 <h:body>
 	<h:form>
 		<b:container layout="fluid">
@@ -59,7 +67,8 @@
 			<b:panel collapsible="false" title="Resultados Encontrados" style="width:90%;">
 				<b:dataTable value="#{tarefaMBean.listaTarefa}" var="tarefa"
 					paginated="false" searching="false" 
-					border="false" customLangUrl="//cdn.datatables.net/plug-ins/1.12.0/i18n/pt-BR.json">
+					border="false" customLangUrl="//cdn.datatables.net/plug-ins/1.12.0/i18n/pt-BR.json"
+					row-style-class="#{tarefa.terminouPrazo ? 'light-power': null}">
 					<b:dataTableColumn label="Número" value="#{tarefa.id}"/>
 					<b:dataTableColumn label="Título" value="#{tarefa.titulo}" />
 					<b:dataTableColumn label="Responsável" value="#{tarefa.responsavel.nome}" />
