@@ -1,0 +1,32 @@
+CREATE SCHEMA comum;
+
+CREATE SEQUENCE comum.responsavel_sequence
+	MINVALUE 1
+	START WITH 1
+	INCREMENT BY 1;
+
+CREATE TABLE comum.responsavel(
+    id_responsavel INTEGER DEFAULT NEXTVAL('comum.responsavel_sequence') NOT NULL,
+    nome TEXT NOT NULL,
+    PRIMARY KEY (id_responsavel));
+
+CREATE SEQUENCE comum.tarefa_sequence
+	MINVALUE 1
+	START WITH 1
+	INCREMENT BY 1;
+
+CREATE TABLE comum.tarefa(
+    id_tarefa INTEGER DEFAULT NEXTVAL('comum.tarefa_sequence') NOT NULL,
+    titulo TEXT NOT NULL,
+    descricao TEXT,
+    deadline DATE NOT NULL,
+    id_responsavel INTEGER NOT NULL,
+    prioridade TEXT CHECK (prioridade IN('ALTA', 'MEDIA', 'BAIXA')),
+    situacao TEXT CHECK (situacao IN('Em andamento', 'Concluída')),
+    PRIMARY KEY (id_tarefa),
+    FOREIGN KEY (id_responsavel)
+    REFERENCES comum.responsavel (id_responsavel));
+
+
+INSERT INTO comum.responsavel (nome)
+VALUES ('Ana Catarina Machado'), ('Bianca Teles'), ('Alfredo Santos');
