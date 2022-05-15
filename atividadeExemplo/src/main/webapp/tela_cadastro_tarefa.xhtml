@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html 	xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://xmlns.jcp.org/jsf/html"
+		xmlns:f="http://xmlns.jcp.org/jsf/core"
+		xmlns:p="http://primefaces.org/ui" 
+		xmlns:b="http://bootsfaces.net/ui">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Cadastrar Tarefa</title>
+</h:head>
+<h:body>
+	<b:form inline="true">
+		<b:container layout="fluid">
+			<b:panel collapsible="false" title="Cadastrar Tarefa" look="primary">
+				<p:messages id="messages" showDetail="false" styleClass="mensagens"
+					autoUpdate="true" closable="true" escape="false" />
+				<br/>
+				<b:row>
+					<b:column>
+						<b:inputText value="#{tarefaMBean.tarefa.titulo}" label="Título" required="true" requiredMessage="Informe um título"/>
+					</b:column>
+				</b:row>
+				<br/>
+				<b:row>
+					<b:column>
+						<b:inputTextarea value="#{tarefaMBean.tarefa.descricao}"
+							title="Descrição" label="Descrição" required="true"
+							requiredMessage="Informe uma descrição" />
+					</b:column>
+				</b:row>
+				<br/>
+				<b:row>
+					<b:column col-lg="6">
+						<b:selectOneMenu label="Responsável" value="#{tarefaMBean.tarefa.responsavel.id}">
+							<f:selectItem itemValue="0" itemLabel="----SELECIONE----"/>
+							<f:selectItems value="#{tarefaMBean.comboResponsaveis}" />
+						</b:selectOneMenu>
+					</b:column>
+	
+					<b:column col-lg="6">
+						<b:selectOneMenu label="Prioridade" value="#{tarefaMBean.tarefa.prioridade}">
+							<f:selectItems value="#{tarefaMBean.comboPrioridades}" />
+						</b:selectOneMenu>
+					</b:column>
+				</b:row>
+				<br/>
+				<b:row>
+					<b:column col-lg="12">
+						<b:datepicker label="Deadline" value="#{tarefaMBean.tarefa.deadline}"
+							required="true" requiredMessage="Informe o deadline" />
+					</b:column>
+				</b:row>
+				<br/>
+				<b:row>
+					<b:column style="text-align:center;">
+						<b:commandButton value="Início" action="#{tarefaMBean.paginaInicial}" 
+							look="primary" immediate="true" icon-awesome="fas fa-home"/>
+						<p:spacer width="5px;" />
+						<b:commandButton value="Salvar" action="#{tarefaMBean.salvar}" look="success" icon-awesome="fas fa-save" />
+					</b:column>
+				</b:row>
+			</b:panel>
+		</b:container>
+	</b:form>
+</h:body>
+</html>

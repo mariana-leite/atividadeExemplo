@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html 	xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://xmlns.jcp.org/jsf/html"
+		xmlns:f="http://xmlns.jcp.org/jsf/core"
+		xmlns:p="http://primefaces.org/ui" 
+		xmlns:b="http://bootsfaces.net/ui">
+
+<h:head>
+	<title>Listagem de Tarefas</title>
+</h:head>
+
+<h:body>
+	<h:form>
+		<b:container layout="fluid">
+			<p:messages id="messages" showDetail="false" styleClass="mensagens"
+				autoUpdate="true" closable="true" escape="false" />
+			<p:panel collapsible="false" title="Listagem de Tarefas" look="primary" style="width:90%;" >
+				<b:row>
+					<b:column>
+						<b:inputText value="#{tarefaMBean.tarefa.id}" label="Número"/>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column>
+						<b:inputText value="#{tarefaMBean.tarefa.titulo}" label="Título/Descrição"/>
+					</b:column>
+				</b:row>
+
+				<b:row>
+					<b:column col-md="6">
+						<b:selectOneMenu label="Responsável"
+							value="#{tarefaMBean.tarefa.responsavel.id}">
+							<f:selectItem itemValue="0" itemLabel="SELECIONE" />
+							<f:selectItems value="#{tarefaMBean.comboResponsaveis}" />
+						</b:selectOneMenu>
+					</b:column>
+
+					<b:column col-md="6">
+						<b:selectOneMenu label="Situação"
+							value="#{tarefaMBean.tarefa.situacao}">
+							<f:selectItems value="#{tarefaMBean.comboSituacoes}" />
+						</b:selectOneMenu>
+					</b:column>
+				</b:row>
+				<f:facet name="footer">
+					<b:row>
+						<b:column style="text-align:center;">
+							<b:commandButton value="Início" action="#{tarefaMBean.paginaInicial}"
+								look="primary" immediate="true" icon-awesome="fas fa-home"/>
+							<p:spacer width="5px;" />
+							<b:commandButton value="Buscar" action="#{tarefaMBean.buscar}"
+								look="primary" icon-awesome="fas fa-search" />
+						</b:column>
+					</b:row>
+				</f:facet>
+			</p:panel>
+			<br></br>
+			<b:panel collapsible="false" title="Resultados Encontrados" style="width:90%;">
+				<b:dataTable value="#{tarefaMBean.listaTarefa}" var="tarefa"
+					paginated="false" searching="false" 
+					border="false" customLangUrl="//cdn.datatables.net/plug-ins/1.12.0/i18n/pt-BR.json">
+					<b:dataTableColumn label="Número" value="#{tarefa.id}"/>
+					<b:dataTableColumn label="Título" value="#{tarefa.titulo}" />
+					<b:dataTableColumn label="Responsável" value="#{tarefa.responsavel.nome}" />
+					<b:dataTableColumn label="Ações" orderable="false">
+						<b:commandButton action="#{tarefaMBean.iniciarAlterar(tarefa)}"
+							value="Editar" look="warning" icon-awesome="fas fa-edit" 
+							disabled="#{tarefa.concluida}"/>
+						<p:spacer width="5px;" />
+						<b:commandButton action="#{tarefaMBean.excluir(tarefa)}"
+							onclick="return confirm('Tem certeza que deseja excluir essa tarefa?')"
+							value="Excluir" look="danger" icon-awesome="fas fa-trash" 
+							disabled="#{tarefa.concluida}"/>
+						<p:spacer width="5px;" />
+						<b:commandButton action="#{tarefaMBean.concluir(tarefa)}"
+							value="Concluir" look="success" icon-awesome="fas fa-check"
+							disabled="#{tarefa.concluida}"/>
+					</b:dataTableColumn>
+				</b:dataTable>
+			</b:panel>
+		</b:container>
+	</h:form>
+</h:body>
+</html>

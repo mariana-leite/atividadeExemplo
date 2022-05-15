@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html 	xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://xmlns.jcp.org/jsf/html"
+		xmlns:f="http://xmlns.jcp.org/jsf/core"
+		xmlns:p="http://primefaces.org/ui" 
+		xmlns:b="http://bootsfaces.net/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Sistema de Gestão de Tarefas</title>
+</h:head>
+<h:body>
+	<h:form>
+		<div align="center">
+			<h2>Sistema de Gestão de Tarefas</h2>
+		</div>
+		<div align="left">
+			<p:messages id="messages" showDetail="false" styleClass="mensagens"
+				autoUpdate="true" closable="true" escape="false" />
+			<br/>
+			<b:commandLink action="#{tarefaMBean.iniciarCadastrar}" value="Cadastrar Tarefa" />
+			: Através desse link é possível cadastrar uma tarefa.
+			<br/>
+			<b:commandLink action="#{responsavelMBean.iniciarCadastrar}" value="Cadastrar Responsável" />
+			: Através desse link é possível cadastrar um responsável.
+			<br/>
+			<b:commandLink action="#{tarefaMBean.iniciarBuscar}" value="Listar" />
+			: Através desse link é possível listar as tarefas cadastradas. Também é possível fazer a busca por filtros fornecidos
+			pelo sistema, editar, excluir ou concluir uma tarefa. 
+		</div>
+	</h:form>
+</h:body>
+</html>
