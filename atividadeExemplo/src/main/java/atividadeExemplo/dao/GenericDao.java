@@ -78,7 +78,7 @@ public class GenericDao<T> {
 			value = "'" + value + "'";
 		}
 		List<T> resultado = entityManager.createQuery(" from " + c.getName() + " where "
-				+ field + " = " + value.toString()).getResultList();
+				+ field + " = " + value.toString() + " order by id ").getResultList();
 		return resultado;
 	}
 }

@@ -1,5 +1,8 @@
 package atividadeExemplo.jsf;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -30,12 +33,16 @@ public class TarefaMBean {
 	private List<SelectItem> comboPrioridades;
 	private List<SelectItem> comboSituacoes;
 	private List<Tarefa> listaTarefa = new ArrayList<>();
+	private String deadline;
+	private boolean visualizar;
 	
 	private void clear() {
 		tarefa = new Tarefa();
 		tarefa.setResponsavel(new Responsavel());
 		tarefa.setPrioridade(null);
 		tarefa.setSituacao(SituacaoEnum.EM_ANDAMENTO);
+		deadline = null;
+		visualizar = false;
 	}
 	
 	public String paginaInicial() {
@@ -48,11 +55,13 @@ public class TarefaMBean {
 		return TELA_CADASTRO;
 	}
 	
-	public String salvar() {
+	public String salvar() throws ParseException {
 		if(tarefa.getResponsavel().getId() == null || tarefa.getResponsavel().getId() <= 0) {
 			addMensagem("Informe um responsável.", FacesMessage.SEVERITY_ERROR);
 			return TELA_CADASTRO;
 		}
+		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+		tarefa.setDeadline(formato.parse(deadline));
 		GenericDao<Tarefa> gDao = new GenericDao<>();
 		if (tarefa.getId() != null && tarefa.getId() > 0) {
 			gDao.atualizar(tarefa);
@@ -116,8 +125,25 @@ public class TarefaMBean {
 	}
 	
 	public String iniciarAlterar(Tarefa tarefaSelecionada) {
-		tarefa = tarefaSelecionada;
+		clear();
+		preencherTarefa(tarefaSelecionada);
 		return TELA_CADASTRO;
+	}
+	
+	public String visualizarTarefa(Tarefa tarefaSelecionada) {
+		visualizar = true;
+		preencherTarefa(tarefaSelecionada);
+		return TELA_CADASTRO;
+	}
+	
+	private void preencherTarefa(Tarefa tarefaSelecionada) {
+		tarefa = tarefaSelecionada;
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");  
+		deadline = dateFormat.format(tarefaSelecionada.getDeadline());
+	}
+	
+	public String voltarBusca() {
+		return TELA_BUSCA;
 	}
 	
 	public void addMensagem(String mensagem, Severity tipo) {
@@ -140,6 +166,21 @@ public class TarefaMBean {
 	public void setListaTarefa(List<Tarefa> listaTarefa) {
 		this.listaTarefa = listaTarefa;
 	}
-	
 
+	public boolean isVisualizar() {
+		return visualizar;
+	}
+
+	public void setVisualizar(boolean visualizar) {
+		this.visualizar = visualizar;
+	}
+
+	public String getDeadline() {
+		return deadline;
+	}
+
+	public void setDeadline(String deadline) {
+		this.deadline = deadline;
+	}
+	
 }

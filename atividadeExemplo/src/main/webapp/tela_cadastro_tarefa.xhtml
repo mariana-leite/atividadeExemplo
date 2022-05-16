@@ -8,18 +8,19 @@
 
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>Cadastrar Tarefa</title>
+	<title><h:outputText value="#{tarefaMBean.visualizar ? 'Visualizar Tarefa':'Cadastrar Tarefa'}" /></title>
 </h:head>
 <h:body>
 	<b:form inline="true">
 		<b:container layout="fluid">
-			<b:panel collapsible="false" title="Cadastrar Tarefa" look="primary">
+			<b:panel collapsible="false" title="#{tarefaMBean.visualizar ? 'Visualizar Tarefa':'Cadastrar Tarefa'}" look="primary">
 				<p:messages id="messages" showDetail="false" styleClass="mensagens"
 					autoUpdate="true" closable="true" escape="false" />
 				<br/>
 				<b:row>
 					<b:column>
-						<b:inputText value="#{tarefaMBean.tarefa.titulo}" label="Título" required="true" requiredMessage="Informe um título"/>
+						<b:inputText value="#{tarefaMBean.tarefa.titulo}" label="Título" required="true" 
+							requiredMessage="Informe um título" readonly="#{tarefaMBean.visualizar}"/>
 					</b:column>
 				</b:row>
 				<br/>
@@ -27,20 +28,20 @@
 					<b:column>
 						<b:inputTextarea value="#{tarefaMBean.tarefa.descricao}"
 							title="Descrição" label="Descrição" required="true"
-							requiredMessage="Informe uma descrição" />
+							requiredMessage="Informe uma descrição" readonly="#{tarefaMBean.visualizar}"/>
 					</b:column>
 				</b:row>
 				<br/>
 				<b:row>
 					<b:column col-lg="6">
-						<b:selectOneMenu label="Responsável" value="#{tarefaMBean.tarefa.responsavel.id}">
+						<b:selectOneMenu label="Responsável" required="true" value="#{tarefaMBean.tarefa.responsavel.id}" readonly="#{tarefaMBean.visualizar}">
 							<f:selectItem itemValue="0" itemLabel="----SELECIONE----"/>
 							<f:selectItems value="#{tarefaMBean.comboResponsaveis}" />
 						</b:selectOneMenu>
 					</b:column>
 	
 					<b:column col-lg="6">
-						<b:selectOneMenu label="Prioridade" value="#{tarefaMBean.tarefa.prioridade}">
+						<b:selectOneMenu label="Prioridade" required="true" value="#{tarefaMBean.tarefa.prioridade}" readonly="#{tarefaMBean.visualizar}">
 							<f:selectItems value="#{tarefaMBean.comboPrioridades}" />
 						</b:selectOneMenu>
 					</b:column>
@@ -48,8 +49,9 @@
 				<br/>
 				<b:row>
 					<b:column col-lg="12">
-						<b:datepicker label="Deadline" value="#{tarefaMBean.tarefa.deadline}"
-							required="true" requiredMessage="Informe o deadline" />
+						<b:inputText value="#{tarefaMBean.deadline}" label="Deadline" required="true" 
+							requiredMessage="Informe o deadline" readonly="#{tarefaMBean.visualizar}" 
+							mask="dd/mm/yyyy"/>
 					</b:column>
 				</b:row>
 				<br/>
@@ -58,7 +60,10 @@
 						<b:commandButton value="Início" action="#{tarefaMBean.paginaInicial}" 
 							look="primary" immediate="true" icon-awesome="fas fa-home"/>
 						<p:spacer width="5px;" />
-						<b:commandButton value="Salvar" action="#{tarefaMBean.salvar}" look="success" icon-awesome="fas fa-save" />
+						<b:commandButton value="Salvar" action="#{tarefaMBean.salvar}" look="success" 
+							icon-awesome="fas fa-save" rendered="#{!tarefaMBean.visualizar}"/>
+						<b:commandButton value="Voltar" action="#{tarefaMBean.voltarBusca}" look="primary" 
+							icon-awesome="fas fa-angle-left" rendered="#{tarefaMBean.visualizar}"/>
 					</b:column>
 				</b:row>
 			</b:panel>

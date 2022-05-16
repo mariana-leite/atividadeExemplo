@@ -23,7 +23,8 @@ public class TarefaDao extends GenericDao<Tarefa>{
 		if(situacao != null)
 			where += " and t.situacao = '" + situacao.getDescricao() + "'";
 		EntityManager entityManager = getEntityManager();
-		List<Tarefa> resultado = entityManager.createQuery(" from Tarefa t " + where).getResultList();
+		List<Tarefa> resultado = entityManager.createQuery(" from Tarefa t " + where 
+				+ " order by t.id ").getResultList();
 		return resultado;
 	}
 
